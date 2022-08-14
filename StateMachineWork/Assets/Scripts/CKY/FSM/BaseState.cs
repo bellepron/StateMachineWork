@@ -43,11 +43,11 @@ namespace CKY.FSM
         {
             base.UpdateLogic();
 
-            if (Mathf.Abs(_stateMachine.rb.velocity.x) > Mathf.Epsilon)
-                stateMachine.ChangeState(_stateMachine.moveState);
-
             if (_stateMachine.jumpTrigger == true)
                 stateMachine.ChangeState(_stateMachine.jumpState);
+
+            if (Mathf.Abs(_stateMachine.moveValue) > Mathf.Epsilon)
+                stateMachine.ChangeState(_stateMachine.moveState);
         }
 
         public override void Exit()
@@ -75,11 +75,11 @@ namespace CKY.FSM
         {
             base.UpdateLogic();
 
-            if (Mathf.Abs(_stateMachine.rb.velocity.x) < Mathf.Epsilon)
-                stateMachine.ChangeState(_stateMachine.idleState);
-
             if (_stateMachine.jumpTrigger == true)
                 stateMachine.ChangeState(_stateMachine.jumpState);
+
+            if (Mathf.Abs(_stateMachine.moveValue) < Mathf.Epsilon)
+                stateMachine.ChangeState(_stateMachine.idleState);
         }
 
         public override void UpdatePhysics()
@@ -109,6 +109,7 @@ namespace CKY.FSM
         public override void Enter()
         {
             base.Enter();
+            Debug.Log("Zýpla!");
             _stateMachine.rb.AddForce(_jumpPower * Vector3.up, ForceMode.Impulse);
             _stateMachine.mr.material.color = Color.blue;
         }

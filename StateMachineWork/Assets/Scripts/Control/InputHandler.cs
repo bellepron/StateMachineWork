@@ -1,9 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using System;
-//using UnityEngine.EventSystems;
+using UnityEngine.EventSystems;
 
-public class InputHandler : MonoBehaviour/*, IPointerUpHandler*/
+public class InputHandler : MonoBehaviour, IPointerUpHandler
 {
     //[SerializeField] Button forwardButton, backwardButton, jumpButton, attackButton;
 
@@ -28,8 +28,8 @@ public class InputHandler : MonoBehaviour/*, IPointerUpHandler*/
         AttackButtonPressed?.Invoke();
     }
 
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-
-    //}
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("Parmak çekildi");
+    }
 }

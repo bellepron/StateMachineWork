@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,18 +68,39 @@ namespace CKY.FSM
         private void Jump()
         {
             jumpTrigger = true;
+            StartCoroutine(JumpResetter());
+        }
+        IEnumerator JumpResetter()
+        {
+            yield return null;
+            jumpTrigger = false;
         }
 
         private void Attack()
         {
             attackTrigger = true;
+            SpawnBullet();
+            StartCoroutine(AttackResetter());
+        }
+        IEnumerator AttackResetter()
+        {
+            yield return null;
+            attackTrigger = false;
+        }
+
+        private void SpawnBullet()
+        {
+            Debug.Log("Bullet spawned");
         }
 
         //private void Update()
         //{
-        //    moveValue = 0;
-        //    jumpTrigger = false;
-        //    attackTrigger = false;
+        //    if (moveValue > 0.1f)
+        //        moveValue -= 1 * Time.deltaTime;
+        //    else if (moveValue < 0.1f)
+        //        moveValue += 1 * Time.deltaTime;
+        //    else
+        //        moveValue = 0;
         //}
     }
 }
