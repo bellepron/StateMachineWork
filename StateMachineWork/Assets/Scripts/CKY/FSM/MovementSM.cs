@@ -7,6 +7,8 @@ namespace CKY.FSM
 {
     public class MovementSM : StateMachine
     {
+        [SerializeField] AbstractGun gun;
+
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public MeshRenderer mr;
         public float speed = 4f;
@@ -79,8 +81,9 @@ namespace CKY.FSM
         private void Attack()
         {
             attackTrigger = true;
-            SpawnBullet();
             StartCoroutine(AttackResetter());
+
+            Shoot();
         }
         IEnumerator AttackResetter()
         {
@@ -88,9 +91,10 @@ namespace CKY.FSM
             attackTrigger = false;
         }
 
-        private void SpawnBullet()
+        private void Shoot()
         {
             Debug.Log("Bullet spawned");
+            gun.Shoot();
         }
 
         //private void Update()
