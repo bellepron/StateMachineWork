@@ -9,7 +9,10 @@ namespace Medium.FSM
         [HideInInspector]
         public Idle idleState;
         [HideInInspector]
-        public Move movingState;
+        public Move moveState;
+        [HideInInspector]
+        public Jump jumpState;
+
         public Rigidbody rb;
         public float speed = 4f;
         public MeshRenderer mr;
@@ -17,7 +20,8 @@ namespace Medium.FSM
         private void Awake()
         {
             idleState = new Idle(this);
-            movingState = new Move(this);
+            moveState = new Move(this);
+            jumpState = new Jump(this);
         }
 
         protected override BaseState GetInitialState()

@@ -7,7 +7,7 @@ namespace Medium.FSM
     [System.Serializable]
     public class BaseState
     {
-        public enum StateName { IDLE, MOVE }
+        public enum StateName { IDLE, MOVE, JUMP }
         public StateName stateName;
         protected StateMachine stateMachine;
 
@@ -28,6 +28,7 @@ namespace Medium.FSM
     {
         private readonly MovementSM _stateMachine;
         private float _horizontalInput;
+        private bool _jumpInput;
 
         public Idle(MovementSM stateMachine) : base(StateName.IDLE, stateMachine)
         {
@@ -45,9 +46,13 @@ namespace Medium.FSM
         {
             base.UpdateLogic();
             _horizontalInput = Input.GetAxis("Horizontal");
+            _jumpInput = Input.GetKeyDown(KeyCode.Space);
 
             if (Mathf.Abs(_horizontalInput) > Mathf.Epsilon)
-                stateMachine.ChangeState(_stateMachine.movingState);
+                stateMachine.ChangeState(_stateMachine.moveState);
+
+            if (_jumpInput == true)
+                stateMachine.ChangeState(_stateMachine.jumpState);
         }
 
         public override void Exit()
@@ -56,10 +61,12 @@ namespace Medium.FSM
             Debug.Log("Exit Ide");
         }
     }
+
     public class Move : BaseState
     {
         private readonly MovementSM _stateMachine;
         private float _horizontalInput;
+        private bool _jumpInput;
 
         public Move(MovementSM stateMachine) : base(StateName.MOVE, stateMachine)
         {
@@ -77,9 +84,13 @@ namespace Medium.FSM
         {
             base.UpdateLogic();
             _horizontalInput = Input.GetAxis("Horizontal");
+            _jumpInput = Input.GetKeyDown(KeyCode.Space);
 
             if (Mathf.Abs(_horizontalInput) < Mathf.Epsilon)
                 stateMachine.ChangeState(_stateMachine.idleState);
+
+            if (_jumpInput == true)
+                stateMachine.ChangeState(_stateMachine.jumpState);
         }
 
         public override void UpdatePhysics()
@@ -94,6 +105,31 @@ namespace Medium.FSM
         {
             base.Exit();
             Debug.Log("Exit Move");
+        }
+    }
+
+    public class Jump : BaseState
+    {
+        private readonly MovementSM _stateMachine;
+        private float _jumpPower = 10.0f;
+
+        public Jump(MovementSM stateMachine) : base(StateName.JUMP, stateMachine)
+        {
+            _stateMachine = stateMachine;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            _stateMachine.rb.AddForce(_jumpPower * Vector3.up, ForceMode.Impulse);
+            _stateMachine.mr.material.color = Color.blue;
+        }
+
+        public override void UpdatePhysics()
+        {
+            base.UpdatePhysics();
+
+            // Aþþa ray At.
         }
     }
 }
