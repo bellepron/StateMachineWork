@@ -2,30 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    public GameState currentGameState;
-
-    [SerializeField] GameObject startPanel;
+    [SerializeField] private GameEvents _gameEvents;
+    [SerializeField] private GameObject loadingPanel, startPanel, successPanel, failPanel;
 
     private void Start()
     {
-        currentGameState = new AfterStartState();
+        loadingPanel.SetActive(true);
+        startPanel.SetActive(false);
+        successPanel.SetActive(false);
+        failPanel.SetActive(false);
+
+        GameEvents.AddressablesLoaded += AddressablesLoaded;
+        GameEvents.GameStart += GameStart;
     }
 
-    private void Update()
+    private void AddressablesLoaded()
     {
-        currentGameState = currentGameState.Process();
+        startPanel.SetActive(true);
+        loadingPanel.SetActive(false);
     }
 
-    public void StartButton()
+    public void StartPanelClicked()
     {
-        FindObjectOfType<GameEvents>().GameStart();
+
     }
 
-    public void EndButton()
+    private void GameStart()
     {
-        FindObjectOfType<GameEvents>().GameEnd();
+        startPanel.SetActive(false);
     }
 }

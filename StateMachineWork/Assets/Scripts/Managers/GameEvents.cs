@@ -3,7 +3,7 @@ using System;
 
 public class GameEvents : MonoBehaviour
 {
-    public static event Action gameStart, gameEnd;
+    public static event Action AddressablesLoaded, GameStart, GameEnd;
 
     private void Awake()
     {
@@ -12,17 +12,23 @@ public class GameEvents : MonoBehaviour
 
     private void ResetEvents()
     {
-        gameStart = null;
-        gameEnd = null;
+        AddressablesLoaded = null;
+        GameStart = null;
+        GameEnd = null;
     }
 
-    public void GameStart()
+    public void AddressablesLoadedEvent()
     {
-        gameStart?.Invoke();
+        AddressablesLoaded?.Invoke();
     }
 
-    public void GameEnd()
+    public void GameStartEvent()
     {
-        gameEnd?.Invoke();
+        GameStart?.Invoke();
+    }
+
+    public void GameEndEvent()
+    {
+        GameEnd?.Invoke();
     }
 }

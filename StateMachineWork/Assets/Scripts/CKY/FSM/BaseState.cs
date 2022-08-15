@@ -46,7 +46,8 @@ namespace CKY.FSM
             if (_stateMachine.jumpTrigger == true)
                 stateMachine.ChangeState(_stateMachine.jumpState);
 
-            if (Mathf.Abs(_stateMachine.moveValue) > Mathf.Epsilon)
+            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true ||
+                CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
                 stateMachine.ChangeState(_stateMachine.moveState);
         }
 
@@ -78,7 +79,8 @@ namespace CKY.FSM
             if (_stateMachine.jumpTrigger == true)
                 stateMachine.ChangeState(_stateMachine.jumpState);
 
-            if (Mathf.Abs(_stateMachine.moveValue) < Mathf.Epsilon)
+            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == false &&
+                CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == false)
                 stateMachine.ChangeState(_stateMachine.idleState);
         }
 
@@ -86,7 +88,11 @@ namespace CKY.FSM
         {
             base.UpdatePhysics();
             Vector2 vel = _stateMachine.rb.velocity;
-            vel.x = _stateMachine.moveValue * _stateMachine.speed;
+            float moveValue;
+            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true) moveValue = 1;
+            else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true) moveValue = -1;
+            else moveValue = 0;
+            vel.x = moveValue * _stateMachine.speed;
             _stateMachine.rb.velocity = vel;
         }
 

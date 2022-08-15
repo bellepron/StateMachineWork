@@ -7,15 +7,17 @@ namespace CKY.FSM
 {
     public class MovementSM : StateMachine
     {
+        #region Components
         [SerializeField] AbstractGun gun;
 
         [HideInInspector] public Rigidbody rb;
         [HideInInspector] public MeshRenderer mr;
         public float speed = 4f;
-        public float moveValue;
         public bool jumpTrigger;
         public bool attackTrigger;
+        #endregion
 
+        #region Preparing
         private void Awake()
         {
             idleState = new Idle(this);
@@ -23,7 +25,6 @@ namespace CKY.FSM
             jumpState = new Jump(this);
 
             GetComponents();
-            SubscribeEvents();
         }
 
         private void GetComponents()
@@ -31,8 +32,13 @@ namespace CKY.FSM
             rb = GetComponent<Rigidbody>();
             mr = GetComponent<MeshRenderer>();
         }
+        #endregion
 
         #region Events
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
 
         private void OnDestroy()
         {
@@ -41,32 +47,19 @@ namespace CKY.FSM
 
         private void SubscribeEvents()
         {
-            InputHandler.ForwardButtonPressing += Forward;
-            InputHandler.BackwardButtonPressing += Backward;
-            InputHandler.JumpButtonPressed += Jump;
-            InputHandler.AttackButtonPressed += Attack;
+            CKY.INPUT.InputHandler.JumpButtonPressed += Jump;
+            CKY.INPUT.InputHandler.AttackButtonPressed += Attack;
         }
 
         private void UnSubscribeEvents()
         {
-            InputHandler.ForwardButtonPressing -= Forward;
-            InputHandler.BackwardButtonPressing -= Backward;
-            InputHandler.JumpButtonPressed -= Jump;
-            InputHandler.AttackButtonPressed -= Attack;
+            CKY.INPUT.InputHandler.JumpButtonPressed -= Jump;
+            CKY.INPUT.InputHandler.AttackButtonPressed -= Attack;
         }
 
         #endregion
 
-        private void Forward()
-        {
-            moveValue = 1;
-        }
-
-        private void Backward()
-        {
-            moveValue = -1;
-        }
-
+        #region Jump
         private void Jump()
         {
             jumpTrigger = true;
@@ -77,7 +70,9 @@ namespace CKY.FSM
             yield return null;
             jumpTrigger = false;
         }
+        #endregion
 
+        #region Attack
         private void Attack()
         {
             attackTrigger = true;
@@ -96,15 +91,6 @@ namespace CKY.FSM
             Debug.Log("Bullet spawned");
             gun.Shoot();
         }
-
-        //private void Update()
-        //{
-        //    if (moveValue > 0.1f)
-        //        moveValue -= 1 * Time.deltaTime;
-        //    else if (moveValue < 0.1f)
-        //        moveValue += 1 * Time.deltaTime;
-        //    else
-        //        moveValue = 0;
-        //}
+        #endregion
     }
 }
