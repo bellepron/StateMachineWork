@@ -12,7 +12,7 @@ namespace CKY.FSM.Player
         protected StateMachinePlayerController StateMachinePlayerController;
 
 
-        public BaseStatePlayer(State state, StateMachinePlayer _stateMachinePlayerController)
+        public BaseStatePlayer(State state, StateMachinePlayerController _stateMachinePlayerController)
         {
             this.state = state;
             this.StateMachinePlayerController = _stateMachinePlayerController;
