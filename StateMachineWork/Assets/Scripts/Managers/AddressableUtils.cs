@@ -4,8 +4,6 @@ using System.Collections;
 using UnityEngine;
 using System;
 
-public class AddressableUtils { }
-
 [Serializable]
 public class AssetReferenceMaterial : AssetReferenceT<Material>
 {

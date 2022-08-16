@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void StartPanelClicked()
     {
-
+        _gameEvents.GameStartEvent();
     }
 
     private void GameStart()

@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZ_Pooling;
 
 public class BulletSpawner : Singleton<BulletSpawner>
 {
-    [SerializeField] Bullet bulletPrefab;
+    public Transform bulletPrefabTr;
 
     public void SpawnPistolBullet(float speed, Transform gunHeadTr)
     {
-        Bullet bullet = Instantiate(bulletPrefab, gunHeadTr.position, gunHeadTr.rotation);
+        Transform bulletTr = EZ_PoolManager.Spawn(bulletPrefabTr, gunHeadTr.position, gunHeadTr.rotation);
+        Bullet bullet = bulletTr.GetComponent<Bullet>();
         bullet.speed = speed;
         bullet.Move(gunHeadTr);
     }
