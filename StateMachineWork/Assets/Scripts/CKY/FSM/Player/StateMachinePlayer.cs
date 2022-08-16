@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CKY.FSM
+namespace CKY.FSM.Player
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachinePlayer : MonoBehaviour
     {
-        [SerializeField] BaseState currentState;
+        [SerializeField] BaseStatePlayer currentState;
 
         [HideInInspector]
         public Idle idleState;
@@ -30,13 +30,13 @@ namespace CKY.FSM
                 currentState.UpdateLogic();
         }
 
-        private void LateUpdate()
+        private void FixedUpdate()
         {
             if (currentState != null)
                 currentState.UpdatePhysics();
         }
 
-        public void ChangeState(BaseState newState)
+        public void ChangeState(BaseStatePlayer newState)
         {
             currentState.Exit();
 
@@ -44,7 +44,7 @@ namespace CKY.FSM
             currentState.Enter();
         }
 
-        protected virtual BaseState GetInitialState()
+        protected virtual BaseStatePlayer GetInitialState()
         {
             return idleState;
         }

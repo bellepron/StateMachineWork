@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanAI : AbstractAI
+public interface IDamageable
 {
-
+    void GetDamage(float damageValue);
 }

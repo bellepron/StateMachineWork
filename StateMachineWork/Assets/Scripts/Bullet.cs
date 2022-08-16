@@ -8,11 +8,11 @@ public class Bullet : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] TrailRenderer tRenderer;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        tRenderer = GetComponentInChildren<TrailRenderer>();
-    }
+    //private void Awake()
+    //{
+    //    rb = GetComponent<Rigidbody>();
+    //    tRenderer = GetComponentInChildren<TrailRenderer>();
+    //}
 
     private void OnEnable()
     {

@@ -1,17 +1,17 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CKY.FSM
+
+namespace CKY.FSM.Player
 {
-    public class MovementSM : StateMachine
+    public class StateMachinePlayerController : StateMachinePlayer
     {
         #region Components
         [SerializeField] AbstractGun gun;
 
         [HideInInspector] public Rigidbody rb;
-        [HideInInspector] public MeshRenderer mr;
+
         public float speed = 4f;
         public bool jumpTrigger;
         public bool attackTrigger;
@@ -30,7 +30,6 @@ namespace CKY.FSM
         private void GetComponents()
         {
             rb = GetComponent<Rigidbody>();
-            mr = GetComponent<MeshRenderer>();
         }
         #endregion
 
@@ -38,6 +37,11 @@ namespace CKY.FSM
         private void OnEnable()
         {
             SubscribeEvents();
+        }
+
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
         }
 
         private void OnDestroy()
@@ -88,7 +92,7 @@ namespace CKY.FSM
 
         private void Shoot()
         {
-            Debug.Log("Bullet spawned");
+            Debug.Log("Enemy bullet spawned. TODO: need id.");
             gun.Shoot();
         }
         #endregion
