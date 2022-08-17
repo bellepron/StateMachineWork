@@ -90,6 +90,8 @@ namespace CKY.MANAGERS
                 this.loadedPlayer = bullet.Result.transform;
                 this.loadedPlayer.position = Vector3.zero;
                 _isPlayerReady = true;
+
+                
             };
         }
 
