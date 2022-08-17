@@ -13,6 +13,11 @@ public class CameraManager : Singleton<CameraManager>
 
     private void Start()
     {
+        GameEvents.AddressablesLoaded += AdressablesLoaded;
+    }
+
+    private void AdressablesLoaded()
+    {
         activeCam = firstCam;
         ChangeCamera(firstCam);
 
