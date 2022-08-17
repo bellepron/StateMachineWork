@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CKY.FSM.AI
+namespace CKY.AI.FSM
 {
     public class StateMachineAI : MonoBehaviour
     {

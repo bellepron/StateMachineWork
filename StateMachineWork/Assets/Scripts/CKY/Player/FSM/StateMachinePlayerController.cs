@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-namespace CKY.FSM.AI
+
+namespace CKY.Player.FSM
 {
-    public class StateMachineAIController : StateMachineAI
+    public class StateMachinePlayerController : StateMachinePlayer
     {
         #region Components
         [SerializeField] AbstractGun gun;
+        public PlayerAnimator playerAnimator;
 
         [HideInInspector] public Rigidbody rb;
 
@@ -67,6 +68,7 @@ namespace CKY.FSM.AI
         private void Jump()
         {
             jumpTrigger = true;
+            //playerAnimator.Jump();
             StartCoroutine(JumpResetter());
         }
         IEnumerator JumpResetter()
@@ -92,7 +94,8 @@ namespace CKY.FSM.AI
 
         private void Shoot()
         {
-            Debug.Log("Enemy bullet spawned. TODO: need id.");
+            Debug.Log("Player bullet spawned. TODO: need id.");
+            //playerAnimator.Shoot();
             gun.Shoot();
         }
         #endregion

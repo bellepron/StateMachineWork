@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CKY.FSM.Player
+namespace CKY.Player.FSM
 {
     [System.Serializable]
     public class BaseStatePlayer
