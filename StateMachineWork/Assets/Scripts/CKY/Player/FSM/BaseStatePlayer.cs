@@ -89,13 +89,9 @@ namespace CKY.Player.FSM
             float moveValue;
 
             if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
-            {
                 moveValue = 1;
-            }
             else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
-            {
                 moveValue = -1;
-            }
             else moveValue = 0;
 
 

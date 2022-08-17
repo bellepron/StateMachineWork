@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
 
 namespace CKY.Player.FSM
 {
@@ -22,15 +24,24 @@ namespace CKY.Player.FSM
 
             if (currentState != null)
                 currentState.Enter();
+
+            this.UpdateAsObservable().
+                Subscribe(_ => MyUpdate());
+
+            this.FixedUpdateAsObservable().
+                Subscribe(_ => MyFixedUpdate());
+
+            this.OnCollisionEnterAsObservable().
+                Subscribe(collision => OnCollision(collision));
         }
 
-        private void Update()
+        private void MyUpdate()
         {
             if (currentState != null)
                 currentState.UpdateLogic();
         }
 
-        private void FixedUpdate()
+        private void MyFixedUpdate()
         {
             if (currentState != null)
                 currentState.UpdatePhysics();
@@ -49,7 +60,7 @@ namespace CKY.Player.FSM
             return idleState;
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollision(Collision collision)
         {
             if (collision.gameObject.layer == 7) // Ground layer
             {
