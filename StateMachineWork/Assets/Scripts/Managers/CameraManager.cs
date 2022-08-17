@@ -9,7 +9,7 @@ public class CameraManager : Singleton<CameraManager>
 {
     [SerializeField] private CinemachineVirtualCamera activeCam;
     [SerializeField] private CinemachineVirtualCamera firstCam, gameCam, successCam, failCam;
-    [SerializeField] private CinemachineImpulseSource gunImpulse;
+    [SerializeField] private CinemachineImpulseSource impulseSource;
 
     private void Start()
     {
@@ -86,7 +86,7 @@ public class CameraManager : Singleton<CameraManager>
 
     public void Shake(float veloX, float veloY, float veloZ)
     {
-        gunImpulse.m_DefaultVelocity = new Vector3(veloX, veloY, veloZ);
-        gunImpulse.GenerateImpulse();
+        impulseSource.m_DefaultVelocity = new Vector3(veloX, veloY, veloZ);
+        impulseSource.GenerateImpulse();
     }
 }
