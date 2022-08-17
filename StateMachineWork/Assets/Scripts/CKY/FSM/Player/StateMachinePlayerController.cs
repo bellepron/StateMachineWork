@@ -9,6 +9,7 @@ namespace CKY.FSM.Player
     {
         #region Components
         [SerializeField] AbstractGun gun;
+        public PlayerAnimator playerAnimator;
 
         [HideInInspector] public Rigidbody rb;
 
@@ -67,6 +68,7 @@ namespace CKY.FSM.Player
         private void Jump()
         {
             jumpTrigger = true;
+            //playerAnimator.Jump();
             StartCoroutine(JumpResetter());
         }
         IEnumerator JumpResetter()
@@ -92,7 +94,8 @@ namespace CKY.FSM.Player
 
         private void Shoot()
         {
-            Debug.Log("Enemy bullet spawned. TODO: need id.");
+            Debug.Log("Player bullet spawned. TODO: need id.");
+            //playerAnimator.Shoot();
             gun.Shoot();
         }
         #endregion

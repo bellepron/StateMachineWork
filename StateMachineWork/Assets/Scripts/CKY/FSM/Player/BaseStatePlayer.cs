@@ -87,9 +87,20 @@ namespace CKY.FSM.Player
             base.UpdatePhysics();
             Vector2 vel = _stateMachinePlayerCOntroller.rb.velocity;
             float moveValue;
-            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true) moveValue = 1;
-            else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true) moveValue = -1;
+
+            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
+            {
+                moveValue = 1;
+            }
+            else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
+            {
+                moveValue = -1;
+            }
             else moveValue = 0;
+
+
+            //_stateMachinePlayerCOntroller.playerAnimator.Move(moveValue);
+
             vel.x = moveValue * _stateMachinePlayerCOntroller.speed;
             _stateMachinePlayerCOntroller.rb.velocity = vel;
         }

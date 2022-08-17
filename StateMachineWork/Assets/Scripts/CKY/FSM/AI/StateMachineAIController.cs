@@ -92,7 +92,7 @@ namespace CKY.FSM.AI
 
         private void Shoot()
         {
-            Debug.Log("Player bullet spawned. TODO: need id.");
+            Debug.Log("Enemy bullet spawned. TODO: need id.");
             gun.Shoot();
         }
         #endregion
