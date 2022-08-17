@@ -14,14 +14,21 @@ namespace CKY.MANAGERS
         private GameEvents _gameEvents;
 
         [Header("Levels")]
-        [SerializeField] private List<AssetReference> addressableLevels;
+        [SerializeField] private AssetReference[] addressableLevels;
         public Transform loadedLevel;
         private bool _isLevelReady;
 
-        [Header("Player")]
-        [SerializeField] private AssetReference playerR;
-        public Transform loadedPlayer;
-        private bool _isPlayerReady;
+        [Header("Characters")]
+        [SerializeField] private AssetReference[] characters;
+        public Transform loadedCharacter;
+        private bool _isCharacterReady;
+        [SerializeField] Transform playerHolderTr;
+
+        [Header("Weapons")]
+        [SerializeField] private AssetReference[] weapons;
+        public Transform loadedWeapon;
+        private bool _isWeaponReady;
+        private Transform _weaponHolderTr;
 
         [Header("Materials")]
         [SerializeField] private AssetReferenceMaterial matR0;
@@ -47,13 +54,10 @@ namespace CKY.MANAGERS
             while (isUpdating == true)
             {
                 if (_isLevelReady == false) yield return null;
-                Debug.Log("Level loaded");
-                if (_isPlayerReady == false) yield return null;
-                Debug.Log("Player loaded");
+                if (_isCharacterReady == false) yield return null;
+                if (_isCharacterReady == false) yield return null;
                 if (_isMatReady0 == false) yield return null;
-                Debug.Log("ball material loaded");
                 if (_isBullet0Ready == false) yield return null;
-                Debug.Log("bullet0 loaded");
 
                 _gameEvents.AddressablesLoadedEvent();
                 Debug.Log("All addressables Loaded!");
@@ -80,18 +84,41 @@ namespace CKY.MANAGERS
             {
                 loadedLevel = level.Result.transform;
                 _isLevelReady = true;
+                Debug.Log("Level loaded");
             };
         }
 
         private void LoadPlayer()
         {
-            playerR.InstantiateAsync().Completed += (bullet) =>
+            characters[0].InstantiateAsync().Completed += (character) =>
             {
-                this.loadedPlayer = bullet.Result.transform;
-                this.loadedPlayer.position = Vector3.zero;
-                _isPlayerReady = true;
+                this.loadedCharacter = character.Result.transform;
 
-                
+                if (playerHolderTr == null) playerHolderTr = FindObjectOfType<Player.PlayerHolder>().transform;
+                this.loadedCharacter.parent = playerHolderTr;
+                this.loadedCharacter.localPosition = Vector3.zero;
+                this.loadedCharacter.localRotation = Quaternion.Euler(0, 90, 0);
+
+                _isCharacterReady = true;
+                Debug.Log("Player loaded");
+
+                _weaponHolderTr = this.loadedCharacter.GetComponentInChildren<Player.WeaponHolder>().transform;
+
+                LoadWeapon();
+            };
+        }
+
+        private void LoadWeapon()
+        {
+            weapons[0].InstantiateAsync().Completed += (weapon) =>
+            {
+                this.loadedWeapon = weapon.Result.transform;
+                this.loadedWeapon.parent = _weaponHolderTr;
+                this.loadedWeapon.localPosition = Vector3.zero;
+                this.loadedWeapon.localRotation = Quaternion.Euler(0, 90, 0);
+
+                _isWeaponReady = true;
+                Debug.Log("Weapon loaded");
             };
         }
 
@@ -101,6 +128,7 @@ namespace CKY.MANAGERS
             {
                 this.mat0 = mat.Result;
                 _isMatReady0 = true;
+                Debug.Log("ball material loaded");
             };
         }
 
@@ -110,6 +138,7 @@ namespace CKY.MANAGERS
             {
                 this.bullet0 = bullet.Result.transform;
                 _isBullet0Ready = true;
+                Debug.Log("bullet0 loaded");
 
                 BulletSpawner.Instance.bulletPrefabTr = this.bullet0;
             };
