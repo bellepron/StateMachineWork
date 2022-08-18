@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace CKY.Player.FSM
     public class StateMachinePlayerController : StateMachinePlayer
     {
         #region Components
-        [SerializeField] AbstractGun gun;
+        [SerializeField] AbstractWeapon weapon;
         public PlayerAnimator playerAnimator;
 
         [HideInInspector] public Rigidbody rb;
@@ -35,31 +36,32 @@ namespace CKY.Player.FSM
         #endregion
 
         #region Events
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
+        public override void EventSubscriber() => SubscribeEvents();
 
-        private void OnDisable()
-        {
-            UnSubscribeEvents();
-        }
+        private void OnDisable() => UnSubscribeEvents();
 
-        private void OnDestroy()
-        {
-            UnSubscribeEvents();
-        }
+        private void OnDestroy() => UnSubscribeEvents();
 
         private void SubscribeEvents()
         {
             CKY.INPUT.InputHandler.JumpButtonPressed += Jump;
             CKY.INPUT.InputHandler.AttackButtonPressed += Attack;
+
+            GameEvents.WeaponLoaded += GetLoadedWeapon;
         }
 
         private void UnSubscribeEvents()
         {
             CKY.INPUT.InputHandler.JumpButtonPressed -= Jump;
             CKY.INPUT.InputHandler.AttackButtonPressed -= Attack;
+
+            GameEvents.WeaponLoaded -= GetLoadedWeapon;
+        }
+
+        private void GetLoadedWeapon(AbstractWeapon loadedWeapon)
+        {
+            print($"Holder gets loaded weapon {loadedWeapon}");
+            this.weapon = loadedWeapon;
         }
 
         #endregion
@@ -94,9 +96,10 @@ namespace CKY.Player.FSM
 
         private void Shoot()
         {
-            Debug.Log("Player bullet spawned. TODO: need id.");
+            if (this.weapon == null) Debug.Log("Bok");
+            Debug.Log($"Player bullet spawned. TODO: need id. And the loaded weapon {this.weapon}");
             //playerAnimator.Shoot();
-            gun.Shoot();
+            weapon.Shoot();
         }
         #endregion
     }

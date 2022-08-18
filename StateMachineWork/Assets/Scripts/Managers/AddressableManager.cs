@@ -115,10 +115,12 @@ namespace CKY.MANAGERS
                 this.loadedWeapon = weapon.Result.transform;
                 this.loadedWeapon.parent = _weaponHolderTr;
                 this.loadedWeapon.localPosition = Vector3.zero;
-                this.loadedWeapon.localRotation = Quaternion.Euler(0, 90, 0);
+                this.loadedWeapon.localRotation = Quaternion.Euler(0, 0, 0);
 
                 _isWeaponReady = true;
                 Debug.Log("Weapon loaded");
+
+                _gameEvents.WeaponLoadedEvent(this.loadedWeapon.GetComponent<AbstractWeapon>());
             };
         }
 

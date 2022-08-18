@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class AbstractGun : MonoBehaviour
+public abstract class AbstractWeapon : MonoBehaviour
 {
     public float speed = 10;
     public float damage = 50;

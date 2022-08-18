@@ -33,6 +33,13 @@ namespace CKY.Player.FSM
 
             this.OnCollisionEnterAsObservable().
                 Subscribe(collision => OnCollision(collision));
+
+            EventSubscriber();
+        }
+
+        public virtual void EventSubscriber()
+        {
+            Debug.Log("There is something wrong, if you see this!");
         }
 
         private void MyUpdate()

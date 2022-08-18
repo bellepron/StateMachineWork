@@ -8,7 +8,7 @@ namespace CKY.AI.FSM
     public class StateMachineAIController : StateMachineAI
     {
         #region Components
-        [SerializeField] AbstractGun gun;
+        [SerializeField] AbstractWeapon gun;
 
         [HideInInspector] public Rigidbody rb;
 
