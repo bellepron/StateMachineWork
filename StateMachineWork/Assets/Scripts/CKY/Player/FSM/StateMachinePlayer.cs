@@ -7,9 +7,10 @@ using UniRx.Triggers;
 
 namespace CKY.Player.FSM
 {
+    [RequireComponent(typeof(PlayerHealthController))]
     public class StateMachinePlayer : MonoBehaviour
     {
-        [SerializeField] BaseStatePlayer currentState;
+        [SerializeField] private BaseStatePlayer currentState;
 
         [HideInInspector]
         public Idle idleState;
@@ -17,6 +18,11 @@ namespace CKY.Player.FSM
         public Move moveState;
         [HideInInspector]
         public Jump jumpState;
+
+        protected PlayerHealthController playerHealthController;
+        public Rigidbody rb;
+        public float moveSpeed;
+        public float jumpPower;
 
         private void Start()
         {
@@ -35,6 +41,18 @@ namespace CKY.Player.FSM
                 Subscribe(collision => OnCollision(collision));
 
             EventSubscriber();
+
+            GetComponents();
+        }
+
+        private void GetComponents()
+        {
+            playerHealthController = GetComponent<PlayerHealthController>();
+            rb = GetComponent<Rigidbody>();
+
+            GameSettings gameSettings = GameManager.Instance.gameSettings;
+            moveSpeed = gameSettings.playerMoveSpeed;
+            jumpPower = gameSettings.playerJumpPower;
         }
 
         public virtual void EventSubscriber()
