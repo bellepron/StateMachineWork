@@ -7,15 +7,15 @@ namespace CKY.Player.FSM
     [System.Serializable]
     public class BaseStatePlayer
     {
-        public enum State { IDLE, MOVE, JUMP }
+        public enum State { IDLE, MOVE, JUMP, MOVEINTHEAIR, LAND }
         public State state;
-        protected StateMachinePlayerController StateMachinePlayerController;
+        protected StateMachinePlayer stateMachinePlayer;
 
 
-        public BaseStatePlayer(State state, StateMachinePlayerController _stateMachinePlayerController)
+        public BaseStatePlayer(State state, StateMachinePlayer _stateMachinePlayer)
         {
             this.state = state;
-            this.StateMachinePlayerController = _stateMachinePlayerController;
+            this.stateMachinePlayer = _stateMachinePlayer;
         }
 
         public virtual void Enter() { }
@@ -26,15 +26,18 @@ namespace CKY.Player.FSM
 
     public class Idle : BaseStatePlayer
     {
-        private readonly StateMachinePlayerController _stateMachinePlayerController;
+        private readonly StateMachinePlayer _stateMachinePlayer;
 
-        public Idle(StateMachinePlayerController stateMachinePlayerController) : base(State.IDLE, stateMachinePlayerController)
+        public Idle(StateMachinePlayer stateMachinePlayer) : base(State.IDLE, stateMachinePlayer)
         {
-            _stateMachinePlayerController = stateMachinePlayerController;
+            _stateMachinePlayer = stateMachinePlayer;
         }
 
         public override void Enter()
         {
+            if (_stateMachinePlayer.playerAnimator != null)
+                _stateMachinePlayer.playerAnimator.IdleAnim();
+            _stateMachinePlayer.rb.velocity = Vector3.zero;
             base.Enter();
         }
 
@@ -42,12 +45,12 @@ namespace CKY.Player.FSM
         {
             base.UpdateLogic();
 
-            if (_stateMachinePlayerController.jumpTrigger == true)
-                StateMachinePlayerController.ChangeState(_stateMachinePlayerController.jumpState);
+            if (_stateMachinePlayer.jumpTrigger == true)
+                stateMachinePlayer.ChangeState(_stateMachinePlayer.jumpState);
 
             if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true ||
                 CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
-                StateMachinePlayerController.ChangeState(_stateMachinePlayerController.moveState);
+                stateMachinePlayer.ChangeState(_stateMachinePlayer.moveState);
         }
 
         public override void Exit()
@@ -58,15 +61,17 @@ namespace CKY.Player.FSM
 
     public class Move : BaseStatePlayer
     {
-        private readonly StateMachinePlayerController _stateMachinePlayerController;
+        private readonly StateMachinePlayer _stateMachinePlayer;
 
-        public Move(StateMachinePlayerController stateMachinePlayerController) : base(State.MOVE, stateMachinePlayerController)
+        public Move(StateMachinePlayer stateMachinePlayer) : base(State.MOVE, stateMachinePlayer)
         {
-            _stateMachinePlayerController = stateMachinePlayerController;
+            _stateMachinePlayer = stateMachinePlayer;
         }
 
         public override void Enter()
         {
+            _stateMachinePlayer.playerAnimator.RunAnim();
+
             base.Enter();
         }
 
@@ -74,18 +79,18 @@ namespace CKY.Player.FSM
         {
             base.UpdateLogic();
 
-            if (_stateMachinePlayerController.jumpTrigger == true)
-                StateMachinePlayerController.ChangeState(_stateMachinePlayerController.jumpState);
+            if (_stateMachinePlayer.jumpTrigger == true)
+                stateMachinePlayer.ChangeState(_stateMachinePlayer.jumpState);
 
             if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == false &&
                 CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == false)
-                StateMachinePlayerController.ChangeState(_stateMachinePlayerController.idleState);
+                stateMachinePlayer.ChangeState(_stateMachinePlayer.idleState);
         }
 
         public override void UpdatePhysics()
         {
             base.UpdatePhysics();
-            Vector2 vel = _stateMachinePlayerController.rb.velocity;
+            Vector2 vel = _stateMachinePlayer.rb.velocity;
             float moveValue;
 
             if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
@@ -97,31 +102,134 @@ namespace CKY.Player.FSM
 
             //_stateMachinePlayerCOntroller.playerAnimator.Move(moveValue);
 
-            vel.x = moveValue * _stateMachinePlayerController.moveSpeed;
-            _stateMachinePlayerController.rb.velocity = vel;
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
+            vel.x = moveValue * _stateMachinePlayer.moveSpeed;
+            _stateMachinePlayer.rb.velocity = vel;
         }
     }
 
     public class Jump : BaseStatePlayer
     {
-        private readonly StateMachinePlayerController _stateMachinePlayerCOntroller;
-        private float _jumpPower = 10.0f;
+        private readonly StateMachinePlayer _stateMachinePlayer;
+        private float _jumpTime = 0.4f;
+        private float _jumpTimeCounter = 0.0f;
+        private bool _jumped;
 
-        public Jump(StateMachinePlayerController stateMachinePlayerCOntroller) : base(State.JUMP, stateMachinePlayerCOntroller)
+        public Jump(StateMachinePlayer stateMachinePlayer) : base(State.JUMP, stateMachinePlayer)
         {
-            _stateMachinePlayerCOntroller = stateMachinePlayerCOntroller;
+            _stateMachinePlayer = stateMachinePlayer;
         }
 
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("Zýpla!");
-            _stateMachinePlayerCOntroller.rb.AddForce(_jumpPower * Vector3.up, ForceMode.Impulse);
+            Debug.Log("Jump!");
+            _jumpTimeCounter = 0.0f;
+            _jumped = false;
+
+            _stateMachinePlayer.playerAnimator.JumpAnim();
+        }
+
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+
+            if (_jumped == true)
+            {
+                if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true ||
+                    CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
+                    stateMachinePlayer.ChangeState(_stateMachinePlayer.moveInTheAirState);
+
+                return;
+            }
+
+            _jumpTimeCounter += Time.deltaTime;
+
+            if (_jumpTimeCounter >= _jumpTime)
+            {
+                _jumped = true;
+
+                _stateMachinePlayer.rb.AddForce(_stateMachinePlayer.jumpPower * Vector3.up, ForceMode.Impulse);
+            }
+        }
+    }
+
+
+    public class MoveInTheAir : BaseStatePlayer
+    {
+        private readonly StateMachinePlayer _stateMachinePlayer;
+        private float _moveSpeedPercentInTheAir = 0.75f;
+
+        public MoveInTheAir(StateMachinePlayer stateMachinePlayer) : base(State.MOVEINTHEAIR, stateMachinePlayer)
+        {
+            _stateMachinePlayer = stateMachinePlayer;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+        }
+
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+
+            // Double jump maybe *****
+            //if (_stateMachinePlayer.jumpTrigger == true)
+            //    StateMachinePlayer.ChangeState(_stateMachinePlayerController.jumpState);
+        }
+
+        public override void UpdatePhysics()
+        {
+            base.UpdatePhysics();
+            Vector2 vel = _stateMachinePlayer.rb.velocity;
+            float moveValue;
+
+            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
+                moveValue = 1;
+            else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
+                moveValue = -1;
+            else moveValue = 0;
+
+            vel.x = moveValue * _stateMachinePlayer.moveSpeed * _moveSpeedPercentInTheAir;
+            _stateMachinePlayer.rb.velocity = vel;
+        }
+    }
+
+    public class Land : BaseStatePlayer
+    {
+        private readonly StateMachinePlayer _stateMachinePlayer;
+        private float _landAnimTime = 0.3f;
+        private float _landAnimTimeCounter = 0.0f;
+
+        public Land(StateMachinePlayer stateMachinePlayer) : base(State.LAND, stateMachinePlayer)
+        {
+            _stateMachinePlayer = stateMachinePlayer;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            Debug.Log("Land!");
+            _landAnimTimeCounter = 0.0f;
+
+            _stateMachinePlayer.playerAnimator.LandAnim();
+
+            if (_stateMachinePlayer.rb.velocity.y < -1)
+            {
+                Debug.Log("Make an Explosion!");
+            }
+        }
+
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+
+            _landAnimTimeCounter += Time.deltaTime;
+
+            if (_landAnimTimeCounter >= _landAnimTime)
+            {
+                _stateMachinePlayer.ChangeState(_stateMachinePlayer.idleState);
+            }
         }
     }
 }

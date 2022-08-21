@@ -8,21 +8,8 @@ namespace CKY.Player.FSM
 {
     public class StateMachinePlayerController : StateMachinePlayer, IDamageable
     {
-        #region Components
+        #region Variables
         [SerializeField] AbstractWeapon weapon;
-        public PlayerAnimator playerAnimator;
-
-        public bool jumpTrigger;
-        public bool attackTrigger;
-        #endregion
-
-        #region Preparing
-        private void Awake()
-        {
-            idleState = new Idle(this);
-            moveState = new Move(this);
-            jumpState = new Jump(this);
-        }
         #endregion
 
         #region Events
@@ -60,7 +47,6 @@ namespace CKY.Player.FSM
         private void Jump()
         {
             jumpTrigger = true;
-            //playerAnimator.Jump();
             StartCoroutine(JumpResetter());
         }
         IEnumerator JumpResetter()

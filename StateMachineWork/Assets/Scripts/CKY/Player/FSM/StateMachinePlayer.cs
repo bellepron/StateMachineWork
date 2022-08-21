@@ -10,19 +10,35 @@ namespace CKY.Player.FSM
     [RequireComponent(typeof(PlayerHealthController))]
     public class StateMachinePlayer : MonoBehaviour
     {
+        #region Variables
         [SerializeField] private BaseStatePlayer currentState;
 
-        [HideInInspector]
-        public Idle idleState;
-        [HideInInspector]
-        public Move moveState;
-        [HideInInspector]
-        public Jump jumpState;
+        [HideInInspector] public Idle idleState;
+        [HideInInspector] public Move moveState;
+        [HideInInspector] public Jump jumpState;
+        [HideInInspector] public MoveInTheAir moveInTheAirState;
+        [HideInInspector] public Land landState;
 
         protected PlayerHealthController playerHealthController;
+        public PlayerAnimator playerAnimator;
         public Rigidbody rb;
         public float moveSpeed;
         public float jumpPower;
+
+        public bool jumpTrigger;
+        public bool attackTrigger;
+        #endregion
+
+        #region Preparing
+        private void Awake()
+        {
+            idleState = new Idle(this);
+            moveState = new Move(this);
+            jumpState = new Jump(this);
+            landState = new Land(this);
+            moveInTheAirState = new MoveInTheAir(this);
+        }
+        #endregion
 
         private void Start()
         {
@@ -37,12 +53,19 @@ namespace CKY.Player.FSM
             this.FixedUpdateAsObservable().
                 Subscribe(_ => MyFixedUpdate());
 
-            this.OnCollisionEnterAsObservable().
-                Subscribe(collision => OnCollision(collision));
+            StartCoroutine(JumpFirstFrame());
 
             EventSubscriber();
 
             GetComponents();
+        }
+
+        private IEnumerator JumpFirstFrame()
+        {
+            yield return null;
+
+            this.OnCollisionEnterAsObservable().
+                Subscribe(collision => OnCollision(collision));
         }
 
         private void GetComponents()
@@ -89,7 +112,7 @@ namespace CKY.Player.FSM
         {
             if (collision.gameObject.layer == 7) // Ground layer
             {
-                ChangeState(idleState);
+                ChangeState(landState);
             }
         }
     }
