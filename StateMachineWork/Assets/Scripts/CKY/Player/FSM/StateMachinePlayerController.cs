@@ -12,9 +12,6 @@ namespace CKY.Player.FSM
         [SerializeField] AbstractWeapon weapon;
         public PlayerAnimator playerAnimator;
 
-        [HideInInspector] public Rigidbody rb;
-
-        public float speed = 4f;
         public bool jumpTrigger;
         public bool attackTrigger;
         #endregion
@@ -25,13 +22,6 @@ namespace CKY.Player.FSM
             idleState = new Idle(this);
             moveState = new Move(this);
             jumpState = new Jump(this);
-
-            GetComponents();
-        }
-
-        private void GetComponents()
-        {
-            rb = GetComponent<Rigidbody>();
         }
         #endregion
 
@@ -97,14 +87,14 @@ namespace CKY.Player.FSM
         private void Shoot()
         {
             if (this.weapon == null) Debug.Log("Bok");
-            Debug.Log($"Player bullet spawned. TODO: need id. And the loaded weapon {this.weapon}");
+            Debug.Log($"Player bullet spawned. TODO: need id. And the loaded weapon is {this.weapon}");
             //playerAnimator.Shoot();
             weapon.Shoot();
         }
 
         void IDamageable.GetDamage(float damage)
         {
-            throw new NotImplementedException();
+            // TODO: Already did it at the PlayerHealthController script. Maybe I can anim here.
         }
         #endregion
     }

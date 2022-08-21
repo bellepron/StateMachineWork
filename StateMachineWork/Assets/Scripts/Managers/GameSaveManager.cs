@@ -32,10 +32,6 @@ public class GameSaveManager : MonoBehaviour
         {
             SaveGame();
         }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            LoadGame();
-        }
     }
 
 

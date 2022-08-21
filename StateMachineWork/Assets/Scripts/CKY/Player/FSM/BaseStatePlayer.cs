@@ -58,11 +58,11 @@ namespace CKY.Player.FSM
 
     public class Move : BaseStatePlayer
     {
-        private readonly StateMachinePlayerController _stateMachinePlayerCOntroller;
+        private readonly StateMachinePlayerController _stateMachinePlayerController;
 
         public Move(StateMachinePlayerController stateMachinePlayerController) : base(State.MOVE, stateMachinePlayerController)
         {
-            _stateMachinePlayerCOntroller = stateMachinePlayerController;
+            _stateMachinePlayerController = stateMachinePlayerController;
         }
 
         public override void Enter()
@@ -74,18 +74,18 @@ namespace CKY.Player.FSM
         {
             base.UpdateLogic();
 
-            if (_stateMachinePlayerCOntroller.jumpTrigger == true)
-                StateMachinePlayerController.ChangeState(_stateMachinePlayerCOntroller.jumpState);
+            if (_stateMachinePlayerController.jumpTrigger == true)
+                StateMachinePlayerController.ChangeState(_stateMachinePlayerController.jumpState);
 
             if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == false &&
                 CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == false)
-                StateMachinePlayerController.ChangeState(_stateMachinePlayerCOntroller.idleState);
+                StateMachinePlayerController.ChangeState(_stateMachinePlayerController.idleState);
         }
 
         public override void UpdatePhysics()
         {
             base.UpdatePhysics();
-            Vector2 vel = _stateMachinePlayerCOntroller.rb.velocity;
+            Vector2 vel = _stateMachinePlayerController.rb.velocity;
             float moveValue;
 
             if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
@@ -97,8 +97,8 @@ namespace CKY.Player.FSM
 
             //_stateMachinePlayerCOntroller.playerAnimator.Move(moveValue);
 
-            vel.x = moveValue * _stateMachinePlayerCOntroller.speed;
-            _stateMachinePlayerCOntroller.rb.velocity = vel;
+            vel.x = moveValue * _stateMachinePlayerController.moveSpeed;
+            _stateMachinePlayerController.rb.velocity = vel;
         }
 
         public override void Exit()

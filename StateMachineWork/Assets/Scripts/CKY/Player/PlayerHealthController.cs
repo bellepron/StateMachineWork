@@ -6,13 +6,19 @@ namespace CKY.Player
 {
     public class PlayerHealthController : MonoBehaviour, IDamageable
     {
-        public float maxHealth = 100;
+        private GameManager _gameManager;
+        private GameSettings _gameSettings;
+
+        public float maxHealth;
         public float currentHealth;
 
         private void Start()
         {
-            Debug.Log("TODO: Get health values from saved scriptable. But right now;");
-            currentHealth = maxHealth;
+            _gameManager = GameManager.Instance;
+            _gameSettings = _gameManager.gameSettings;
+
+            maxHealth = _gameSettings.maxHealth;
+            currentHealth = _gameSettings.currentHealth;
         }
 
         void IDamageable.GetDamage(float damage)
@@ -22,6 +28,10 @@ namespace CKY.Player
             if (diff > 0)
             {
                 Debug.Log("Decrease health");
+
+                currentHealth = diff;
+
+
             }
             if (diff <= 0)
             {
@@ -29,6 +39,11 @@ namespace CKY.Player
 
                 Debug.Log("Death");
             }
+        }
+
+        private void Save()
+        {
+            _gameManager.SaveToJSON();
         }
     }
 }

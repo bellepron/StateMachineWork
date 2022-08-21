@@ -4,20 +4,35 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
+    public GameSettings gameSettings;
+    [SerializeField] private GameSaveManager gameSaveManager;
+
     [SerializeField] private GameEvents _gameEvents;
     [SerializeField] private GameObject loadingPanel, startPanel, successPanel, failPanel;
 
     private void Start()
     {
+        LoadGameSettingsFromJSON();
+
+        SetPanelsAtStart();
+
+        GameEvents.AddressablesLoaded += AddressablesLoaded;
+        GameEvents.GameStart += GameStart;
+    }
+
+    private void LoadGameSettingsFromJSON()
+    {
+        GameSaveManager.Instance.LoadGame();
+    }
+
+    private void SetPanelsAtStart()
+    {
         loadingPanel.SetActive(true);
         startPanel.SetActive(false);
         successPanel.SetActive(false);
         failPanel.SetActive(false);
-
-        GameEvents.AddressablesLoaded += AddressablesLoaded;
-        GameEvents.GameStart += GameStart;
     }
 
     private void AddressablesLoaded()
@@ -34,5 +49,10 @@ public class GameManager : MonoBehaviour
     private void GameStart()
     {
         startPanel.SetActive(false);
+    }
+
+    public void SaveToJSON()
+    {
+        gameSaveManager.SaveGame();
     }
 }

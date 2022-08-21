@@ -3,7 +3,8 @@ using System;
 
 public class GameEvents : MonoBehaviour
 {
-    public static event Action AddressablesLoaded, GameStart, GameSuccess, GameFail;
+    public static event Action AddressablesLoaded;
+    public static event Action GameStart, GameSuccess, GameFail;
     public static event Action<AbstractWeapon> WeaponLoaded;
 
     private void Awake()
@@ -11,7 +12,7 @@ public class GameEvents : MonoBehaviour
         ResetEvents();
     }
 
-    private void ResetEvents()
+    public void ResetEvents()
     {
         AddressablesLoaded = null;
         GameStart = null;
@@ -26,7 +27,9 @@ public class GameEvents : MonoBehaviour
     {
         AddressablesLoaded?.Invoke();
     }
+    #endregion
 
+    #region Basic Game Flow
     public void GameStartEvent()
     {
         GameStart?.Invoke();
@@ -45,7 +48,6 @@ public class GameEvents : MonoBehaviour
 
     public void WeaponLoadedEvent(AbstractWeapon loadedWeapon)
     {
-        print($"{loadedWeapon.transform.name} 123");
         WeaponLoaded?.Invoke(loadedWeapon);
     }
 }
