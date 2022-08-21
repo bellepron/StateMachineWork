@@ -8,10 +8,10 @@ namespace CKY.Player
     public class PlayerAnimator : MonoBehaviour
     {
         [SerializeField] private Animator anim;
-        #region Cached Properties
-
+        [SerializeField] private float transitionTime = 0.25f;
         private int _currentState;
 
+        #region Cached Properties
         private static readonly int Idle = Animator.StringToHash("Idle BT");
         private static readonly int Run = Animator.StringToHash("Run BT");
         private static readonly int Jump = Animator.StringToHash("Jump BT");
@@ -21,10 +21,7 @@ namespace CKY.Player
         private static readonly int CrouchIdle = Animator.StringToHash("Kneeling Idle BT");
         private static readonly int CrouchToStand = Animator.StringToHash("Kneel to Stand BT");
         private static readonly int Attack = Animator.StringToHash("Attack BT");
-
         #endregion
-
-        [SerializeField] private float transitionTime = 0.25f;
 
 
         private void Start()

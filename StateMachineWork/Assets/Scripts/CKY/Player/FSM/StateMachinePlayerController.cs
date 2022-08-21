@@ -8,10 +8,6 @@ namespace CKY.Player.FSM
 {
     public class StateMachinePlayerController : StateMachinePlayer, IDamageable
     {
-        #region Variables
-        [SerializeField] AbstractWeapon weapon;
-        #endregion
-
         #region Events
         public override void EventSubscriber() => SubscribeEvents();
 
@@ -22,25 +18,14 @@ namespace CKY.Player.FSM
         private void SubscribeEvents()
         {
             CKY.INPUT.InputHandler.JumpButtonPressed += Jump;
-            CKY.INPUT.InputHandler.AttackButtonPressed += Attack;
-
-            GameEvents.WeaponLoaded += GetLoadedWeapon;
+            CKY.INPUT.InputHandler.AttackButtonPressed += TriggerAttack;
         }
 
         private void UnSubscribeEvents()
         {
             CKY.INPUT.InputHandler.JumpButtonPressed -= Jump;
-            CKY.INPUT.InputHandler.AttackButtonPressed -= Attack;
-
-            GameEvents.WeaponLoaded -= GetLoadedWeapon;
+            CKY.INPUT.InputHandler.AttackButtonPressed -= TriggerAttack;
         }
-
-        private void GetLoadedWeapon(AbstractWeapon loadedWeapon)
-        {
-            //print($"Holder gets loaded weapon {loadedWeapon}");
-            this.weapon = loadedWeapon;
-        }
-
         #endregion
 
         #region Jump
@@ -57,12 +42,12 @@ namespace CKY.Player.FSM
         #endregion
 
         #region Attack
-        private void Attack()
+        private void TriggerAttack()
         {
             attackTrigger = true;
             StartCoroutine(AttackResetter());
 
-            Shoot();
+            Attack();
         }
         IEnumerator AttackResetter()
         {
@@ -70,12 +55,9 @@ namespace CKY.Player.FSM
             attackTrigger = false;
         }
 
-        private void Shoot()
+        private void Attack()
         {
-            if (this.weapon == null) Debug.Log("Bok");
-            Debug.Log($"Player bullet spawned. TODO: need id. And the loaded weapon is {this.weapon}");
-            //playerAnimator.Shoot();
-            weapon.Shoot();
+            playerAnimator.AttackAnim();
         }
 
         void IDamageable.GetDamage(float damage)

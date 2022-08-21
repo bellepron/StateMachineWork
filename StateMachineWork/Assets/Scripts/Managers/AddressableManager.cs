@@ -119,7 +119,7 @@ namespace CKY.MANAGERS
                 this.loadedWeapon.localRotation = Quaternion.Euler(0, 0, 0);
 
                 _isWeaponReady = true;
-                //Debug.Log("Weapon loaded");
+                Debug.Log("Weapon loaded");
 
                 _gameEvents.WeaponLoadedEvent(this.loadedWeapon.GetComponent<AbstractWeapon>());
             };

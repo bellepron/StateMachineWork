@@ -6,7 +6,6 @@ namespace CKY.Player
 {
     public class Player : MonoBehaviour
     {
-        public Animator anim;
-        public AbstractWeapon gun;
+        
     }
 }

@@ -254,7 +254,7 @@ BlendTree:
     m_DirectBlendParameter: WeaponIndex
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: de0aea255d84fd84f952b6aaeb5a58bb, type: 3}
+    m_Motion: {fileID: 7400000, guid: 36c66ff221558754b82dcd882b6ef470, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -444,7 +444,7 @@ AnimatorController:
     m_Mask: {fileID: 31900000, guid: 2bb3918b4897625408d5130211a8dc6b, type: 2}
     m_Motions: []
     m_Behaviours: []
-    m_BlendingMode: 0
+    m_BlendingMode: 1
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 1
     m_IKPass: 1
