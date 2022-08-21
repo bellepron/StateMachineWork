@@ -31,7 +31,7 @@ namespace CKY.Player
 
                 currentHealth = diff;
 
-
+                CameraManager.Instance.Shake(0.5f, 0.5f, 0.2f);
             }
             if (diff <= 0)
             {
