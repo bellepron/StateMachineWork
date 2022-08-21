@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 361738651288767758}
   - component: {fileID: 5814153820933030425}
   - component: {fileID: 361738651288767757}
+  - component: {fileID: 146481994143490289}
+  - component: {fileID: 1893200068}
   m_Layer: 0
   m_Name: Player Holder
   m_TagString: Untagged
@@ -61,10 +63,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState:
     state: 0
-  gun: {fileID: 0}
   playerAnimator: {fileID: 0}
   rb: {fileID: 361738651288767757}
-  speed: 4
+  moveSpeed: 0
+  jumpPower: 0
   jumpTrigger: 0
   attackTrigger: 0
 --- !u!136 &5814153820933030425
@@ -89,7 +91,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361738651288767744}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 80
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -97,3 +99,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &146481994143490289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361738651288767744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5620983de5196145a95fe47dc214af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  currentHealth: 0
+--- !u!114 &1893200068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361738651288767744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec181320a91414c448ffecc50bb94fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  Rigidbody: {fileID: 361738651288767757}
+  capsuleCollider: {fileID: 5814153820933030425}
+  pelvisTr: {fileID: 0}

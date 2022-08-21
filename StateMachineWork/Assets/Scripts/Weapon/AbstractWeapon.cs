@@ -12,5 +12,6 @@ public abstract class AbstractWeapon : MonoBehaviour
     public void Shoot()
     {
         BulletSpawner.Instance.SpawnPistolBullet(speed, gunHeadTr);
+        EffectManager.Instance.PistolMuzzle(gunHeadTr);
     }
 }

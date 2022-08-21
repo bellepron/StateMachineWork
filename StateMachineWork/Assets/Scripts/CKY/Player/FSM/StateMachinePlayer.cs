@@ -18,6 +18,7 @@ namespace CKY.Player.FSM
         [HideInInspector] public Jump jumpState;
         [HideInInspector] public MoveInTheAir moveInTheAirState;
         [HideInInspector] public Land landState;
+        [HideInInspector] public Death deathState;
 
         protected PlayerHealthController playerHealthController;
         public PlayerAnimator playerAnimator;
@@ -37,6 +38,7 @@ namespace CKY.Player.FSM
             jumpState = new Jump(this);
             landState = new Land(this);
             moveInTheAirState = new MoveInTheAir(this);
+            deathState = new Death(this);
         }
         #endregion
 
@@ -114,6 +116,11 @@ namespace CKY.Player.FSM
             {
                 ChangeState(landState);
             }
+        }
+
+        public void Death()
+        {
+            ChangeState(deathState);
         }
     }
 }

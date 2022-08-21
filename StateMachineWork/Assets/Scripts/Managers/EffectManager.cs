@@ -6,10 +6,10 @@ using EZ_Pooling;
 public class EffectManager : Singleton<EffectManager>
 {
     private WaitForSeconds _short = new WaitForSeconds(1.0f), _medium = new WaitForSeconds(1.5f), _long = new WaitForSeconds(2.0f);
-     public Transform weaponMuzzleTr0, weaponExplosionTr0;
-  public List<Transform> landingEffectTrs = new List<Transform>();
+    public Transform weaponMuzzleTr0, weaponExplosionTr0;
+    public List<Transform> landingEffectTrs = new List<Transform>();
     public List<Transform> bloodDirectionalTrs = new List<Transform>();
-  public List<Transform> bloodExplosionTrs = new List<Transform>();
+    public List<Transform> bloodExplosionTrs = new List<Transform>();
     public Transform bloodWide0Tr;
 
     int bloodDirectionalsCount, bloodExplosionsCount;
@@ -27,9 +27,10 @@ public class EffectManager : Singleton<EffectManager>
         bloodExplosionsCount = bloodExplosionTrs.Count;
     }
 
-    public void PistolMuzzle(Vector3 pos, Vector3 euler)
+    public void PistolMuzzle(Transform gunHeadTr)
     {
-        Transform effTr = EZ_PoolManager.Spawn(weaponMuzzleTr0, pos, Quaternion.Euler(euler));
+        Transform effTr = EZ_PoolManager.Spawn(weaponMuzzleTr0, gunHeadTr.position, Quaternion.Euler(gunHeadTr.eulerAngles));
+        effTr.parent = gunHeadTr;
 
         StartCoroutine(DeSpawnEff(effTr, _short));
     }

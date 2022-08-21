@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CKY.Player.FSM
 {
-    public class StateMachinePlayerController : StateMachinePlayer, IDamageable
+    public class StateMachinePlayerController : StateMachinePlayer
     {
         #region Events
         public override void EventSubscriber() => SubscribeEvents();
@@ -58,11 +58,6 @@ namespace CKY.Player.FSM
         private void Attack()
         {
             playerAnimator.AttackAnim();
-        }
-
-        void IDamageable.GetDamage(float damage)
-        {
-            // TODO: Already did it at the PlayerHealthController script. Maybe I can anim here.
         }
         #endregion
     }

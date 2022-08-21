@@ -209,7 +209,7 @@ MonoBehaviour:
   gameCam: {fileID: 1855567157}
   successCam: {fileID: 386800485}
   failCam: {fileID: 1388400330}
-  impulseSource: {fileID: 0}
+  impulseSource: {fileID: 1239024666}
 --- !u!4 &44136802 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2123358916630222383, guid: 02693baa537d9f345ab6aaedc90b9153, type: 3}
@@ -661,7 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4654506797992780948, guid: b32e510db0b60dc4f83da64f17bbd70f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5463976756793867822, guid: b32e510db0b60dc4f83da64f17bbd70f, type: 3}
       propertyPath: m_RootOrder
@@ -855,7 +855,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386800483}
-  m_LocalRotation: {x: 0.02348056, y: -0.000000001075102, z: 2.5250965e-11, w: 0.9997243}
+  m_LocalRotation: {x: 0.02348056, y: 0.0000000010751026, z: -2.5250978e-11, w: 0.9997243}
   m_LocalPosition: {x: 0, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

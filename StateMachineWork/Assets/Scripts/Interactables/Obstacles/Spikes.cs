@@ -15,11 +15,10 @@ public class Spikes : MonoBehaviour
 
     private void OnCollision(Collision collision)
     {
-        print("www");
         IDamageable iDamageable = collision.transform.GetComponent<IDamageable>();
 
         if (iDamageable == null) return;
 
-        iDamageable.GetDamage(damage);
+        iDamageable.GetDamage(damage, this.transform);
     }
 }

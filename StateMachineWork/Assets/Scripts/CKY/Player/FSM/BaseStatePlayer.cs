@@ -7,7 +7,7 @@ namespace CKY.Player.FSM
     [System.Serializable]
     public class BaseStatePlayer
     {
-        public enum State { IDLE, MOVE, JUMP, MOVEINTHEAIR, LAND }
+        public enum State { IDLE, MOVE, JUMP, MOVEINTHEAIR, LAND, DEATH }
         public State state;
         protected StateMachinePlayer stateMachinePlayer;
 
@@ -236,6 +236,24 @@ namespace CKY.Player.FSM
             {
                 _stateMachinePlayer.ChangeState(_stateMachinePlayer.idleState);
             }
+        }
+    }
+
+    public class Death : BaseStatePlayer
+    {
+        private readonly StateMachinePlayer _stateMachinePlayer;
+        private float _landAnimTime = 0.3f;
+        private float _landAnimTimeCounter = 0.0f;
+
+        public Death(StateMachinePlayer stateMachinePlayer) : base(State.DEATH, stateMachinePlayer)
+        {
+            _stateMachinePlayer = stateMachinePlayer;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            Debug.Log("Death!");
         }
     }
 }

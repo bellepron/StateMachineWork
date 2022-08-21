@@ -8,6 +8,9 @@ namespace CKY.Player
     {
         private GameManager _gameManager;
         private GameSettings _gameSettings;
+        private RagdollToggle _ragdollToggle;
+        private Rigidbody _rb;
+        private FSM.StateMachinePlayer _smPlayer;
 
         public float maxHealth;
         public float currentHealth;
@@ -16,29 +19,36 @@ namespace CKY.Player
         {
             _gameManager = GameManager.Instance;
             _gameSettings = _gameManager.gameSettings;
+            _ragdollToggle = GetComponent<RagdollToggle>();
+            _rb = GetComponent<Rigidbody>();
+            _smPlayer = GetComponent<FSM.StateMachinePlayer>();
 
             maxHealth = _gameSettings.maxHealth;
             currentHealth = _gameSettings.currentHealth;
         }
 
-        void IDamageable.GetDamage(float damage)
+        void IDamageable.GetDamage(float damage, Transform fromWhat)
         {
             float diff = currentHealth - damage;
 
             if (diff > 0)
             {
-                Debug.Log("Decrease health");
-
                 currentHealth = diff;
 
-                CameraManager.Instance.Shake(0.5f, 0.5f, 0.2f);
+                Vector3 direction = (transform.position - fromWhat.position).normalized; // TODO: Move state overrides this.
+                _rb.AddForce(direction * 200, ForceMode.Impulse);
             }
             if (diff <= 0)
             {
                 currentHealth = 0;
 
-                Debug.Log("Death");
+                _smPlayer.Death();
+                _ragdollToggle.RagdollActivate(true);
+                Vector3 direction = (transform.position - fromWhat.position).normalized;
+                _ragdollToggle.AddForceToPelvis(direction * 200);
             }
+
+            CameraManager.Instance.Shake(0.5f, 0.5f, 0.2f);
         }
 
         private void Save()
