@@ -58,6 +58,7 @@ namespace CKY.MANAGERS
                 if (_isCharacterReady == false) yield return null;
                 if (_isMatReady0 == false) yield return null;
                 if (_isBullet0Ready == false) yield return null;
+                if (_isWeaponReady == false) yield return null;
 
                 _gameEvents.AddressablesLoadedEvent();
                 Debug.Log("All addressables Loaded!");
@@ -84,7 +85,7 @@ namespace CKY.MANAGERS
             {
                 loadedLevel = level.Result.transform;
                 _isLevelReady = true;
-                Debug.Log("Level loaded");
+                //Debug.Log("Level loaded");
             };
         }
 
@@ -100,7 +101,7 @@ namespace CKY.MANAGERS
                 this.loadedCharacter.localRotation = Quaternion.Euler(0, 90, 0);
 
                 _isCharacterReady = true;
-                Debug.Log("Player loaded");
+                //Debug.Log("Player loaded");
 
                 _weaponHolderTr = this.loadedCharacter.GetComponentInChildren<Player.WeaponHolder>().transform;
 
@@ -118,7 +119,7 @@ namespace CKY.MANAGERS
                 this.loadedWeapon.localRotation = Quaternion.Euler(0, 0, 0);
 
                 _isWeaponReady = true;
-                Debug.Log("Weapon loaded");
+                //Debug.Log("Weapon loaded");
 
                 _gameEvents.WeaponLoadedEvent(this.loadedWeapon.GetComponent<AbstractWeapon>());
             };
@@ -130,7 +131,7 @@ namespace CKY.MANAGERS
             {
                 this.mat0 = mat.Result;
                 _isMatReady0 = true;
-                Debug.Log("ball material loaded");
+                //Debug.Log("ball material loaded");
             };
         }
 
@@ -140,7 +141,7 @@ namespace CKY.MANAGERS
             {
                 this.bullet0 = bullet.Result.transform;
                 _isBullet0Ready = true;
-                Debug.Log("bullet0 loaded");
+                //Debug.Log("bullet0 loaded");
 
                 BulletSpawner.Instance.bulletPrefabTr = this.bullet0;
             };

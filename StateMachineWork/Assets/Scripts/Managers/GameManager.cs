@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        LoadGameSettingsFromJSON();
+        //LoadGameSettingsFromJSON();
 
         SetPanelsAtStart();
 
@@ -22,10 +22,10 @@ public class GameManager : Singleton<GameManager>
         GameEvents.GameStart += GameStart;
     }
 
-    private void LoadGameSettingsFromJSON()
-    {
-        GameSaveManager.Instance.LoadGame();
-    }
+    //private void LoadGameSettingsFromJSON()
+    //{
+    //    GameSaveManager.Instance.LoadGame();
+    //}
 
     private void SetPanelsAtStart()
     {

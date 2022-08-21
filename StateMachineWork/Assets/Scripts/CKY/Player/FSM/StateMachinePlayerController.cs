@@ -50,7 +50,7 @@ namespace CKY.Player.FSM
 
         private void GetLoadedWeapon(AbstractWeapon loadedWeapon)
         {
-            print($"Holder gets loaded weapon {loadedWeapon}");
+            //print($"Holder gets loaded weapon {loadedWeapon}");
             this.weapon = loadedWeapon;
         }
 

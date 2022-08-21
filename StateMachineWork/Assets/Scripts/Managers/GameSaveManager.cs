@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine;
-using System.Reflection;
 
 [System.Serializable]
 public class GameSaveManager : MonoBehaviour
 {
     public static GameSaveManager Instance;
-    public GameSettings gameSettings;
+    private GameSettings _gameSettings;
 
     private void Awake()
     {
@@ -22,8 +21,13 @@ public class GameSaveManager : MonoBehaviour
             Destroy(this);
         }
         DontDestroyOnLoad(this);
+    }
 
-        //SaveGame();
+    private void Start()
+    {
+        _gameSettings = GameManager.Instance.gameSettings;
+
+        LoadGame();
     }
 
     private void Update()
@@ -52,7 +56,7 @@ public class GameSaveManager : MonoBehaviour
         }
 
         Debug.Log("Game Saved");
-        var json = JsonUtility.ToJson(gameSettings);
+        var json = JsonUtility.ToJson(_gameSettings);
         File.WriteAllText(Application.persistentDataPath + "/game_save/game_data/game_save.txt", json);
     }
 
@@ -66,7 +70,7 @@ public class GameSaveManager : MonoBehaviour
         if (File.Exists(Application.persistentDataPath + "/game_save/game_data/game_save.txt"))
         {
             var file = File.ReadAllText(Application.persistentDataPath + "/game_save/game_data/game_save.txt");
-            JsonUtility.FromJsonOverwrite((string)file, gameSettings);
+            JsonUtility.FromJsonOverwrite((string)file, _gameSettings);
         }
 
         Debug.Log("Game Loaded");

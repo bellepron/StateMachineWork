@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b57bc007734f194aac39589938d0acf, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
-  playerSpeed: 5
+  playerMoveSpeed: 11
   playerJumpPower: 10
+  maxHealth: 100
+  currentHealth: 100
