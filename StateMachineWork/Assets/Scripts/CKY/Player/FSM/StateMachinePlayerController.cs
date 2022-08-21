@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CKY.Player.FSM
 {
-    public class StateMachinePlayerController : StateMachinePlayer
+    public class StateMachinePlayerController : StateMachinePlayer, IDamageable
     {
         #region Components
         [SerializeField] AbstractWeapon weapon;
@@ -100,6 +100,11 @@ namespace CKY.Player.FSM
             Debug.Log($"Player bullet spawned. TODO: need id. And the loaded weapon {this.weapon}");
             //playerAnimator.Shoot();
             weapon.Shoot();
+        }
+
+        void IDamageable.GetDamage(float damage)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
