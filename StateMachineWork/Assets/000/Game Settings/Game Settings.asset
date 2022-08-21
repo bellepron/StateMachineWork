@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: 
   playerMoveSpeed: 11
-  playerJumpPower: 10
+  playerJumpPower: 800
   maxHealth: 100
   currentHealth: 100

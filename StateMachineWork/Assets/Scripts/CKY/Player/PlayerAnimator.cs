@@ -20,6 +20,8 @@ namespace CKY.Player
         private static readonly int Crouch = Animator.StringToHash("Stand To Kneel BT");
         private static readonly int CrouchIdle = Animator.StringToHash("Kneeling Idle BT");
         private static readonly int CrouchToStand = Animator.StringToHash("Kneel to Stand BT");
+
+        private static readonly int NotAttack = Animator.StringToHash("Not Attack");
         private static readonly int Attack = Animator.StringToHash("Attack BT");
         #endregion
 
@@ -29,6 +31,14 @@ namespace CKY.Player
             transform.parent.GetComponent<FSM.StateMachinePlayer>().playerAnimator = this;
 
             IdleAnim();
+
+            GameEvents.GameRestart += GameRestarted;
+        }
+
+        private void GameRestarted()
+        {
+            IdleAnim();
+            NotAttackAnim();
         }
 
         public void IdleAnim()
@@ -63,6 +73,10 @@ namespace CKY.Player
         public void CrouchToStandAnim()
         {
             anim.CrossFade(CrouchToStand, transitionTime, 0);
+        }
+        public void NotAttackAnim()
+        {
+            anim.CrossFade(NotAttack, 0, 1);
         }
         public void AttackAnim()
         {

@@ -60,6 +60,13 @@ namespace CKY.Player.FSM
             EventSubscriber();
 
             GetComponents();
+
+            GameEvents.GameRestart += GameRestarted;
+        }
+
+        private void GameRestarted()
+        {
+            transform.position = Vector3.zero + Vector3.up * 2.0f;
         }
 
         private IEnumerator JumpFirstFrame()

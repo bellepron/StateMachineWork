@@ -57,7 +57,7 @@ namespace CKY.Player.FSM
 
         private void Attack()
         {
-            playerAnimator.AttackAnim();
+            playerAnimator.AttackAnim(); // TODO: Still working when dead;
         }
         #endregion
     }

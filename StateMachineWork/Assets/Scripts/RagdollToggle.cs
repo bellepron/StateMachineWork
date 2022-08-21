@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,13 @@ public class RagdollToggle : MonoBehaviour
         childrenRigidbody = pelvisTr.GetComponentsInChildren<Rigidbody>();
         pelvisRb = pelvisTr.GetComponent<Rigidbody>();
 
+        RagdollActivate(false);
+
+        GameEvents.GameRestart += GameRestarted;
+    }
+
+    private void GameRestarted()
+    {
         RagdollActivate(false);
     }
 

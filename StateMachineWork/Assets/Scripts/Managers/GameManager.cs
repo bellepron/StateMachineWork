@@ -51,6 +51,11 @@ public class GameManager : Singleton<GameManager>
         startPanel.SetActive(false);
     }
 
+    public void Restart()
+    {
+        _gameEvents.GameRestartEvent();
+    }
+
     public void SaveToJSON()
     {
         gameSaveManager.SaveGame();

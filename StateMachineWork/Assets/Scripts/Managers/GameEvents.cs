@@ -4,12 +4,14 @@ using System;
 public class GameEvents : MonoBehaviour
 {
     public static event Action AddressablesLoaded;
-    public static event Action GameStart, GameSuccess, GameFail;
+    public static event Action GameStart, GameSuccess, GameFail, GameRestart;
     public static event Action<AbstractWeapon> WeaponLoaded;
 
     private void Awake()
     {
         ResetEvents();
+
+        GameRestart = null;
     }
 
     public void ResetEvents()
@@ -43,6 +45,11 @@ public class GameEvents : MonoBehaviour
     public void GameFailEvent()
     {
         GameFail?.Invoke();
+    }
+
+    public void GameRestartEvent()
+    {
+        GameRestart?.Invoke();
     }
     #endregion
 

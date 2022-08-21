@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,13 @@ namespace CKY.Player
 
             maxHealth = _gameSettings.maxHealth;
             currentHealth = _gameSettings.currentHealth;
+
+            GameEvents.GameRestart += GameRestarted;
+        }
+
+        private void GameRestarted()
+        {
+            currentHealth = maxHealth;
         }
 
         void IDamageable.GetDamage(float damage, Transform fromWhat)
