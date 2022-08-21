@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private GameEvents _gameEvents;
     [SerializeField] private GameObject loadingPanel, startPanel, successPanel, failPanel;
+    private WaitForSeconds _wfs = new WaitForSeconds(1.5f);
 
     private void Start()
     {
@@ -18,9 +19,29 @@ public class GameManager : Singleton<GameManager>
 
         SetPanelsAtStart();
 
+        SubscribeEvents();
+    }
+
+    #region Event Operations
+    private void SubscribeEvents()
+    {
         GameEvents.AddressablesLoaded += AddressablesLoaded;
         GameEvents.GameStart += GameStart;
+        GameEvents.GameFail += GameFail;
     }
+
+    private void UnSubscribeEvents()
+    {
+        GameEvents.AddressablesLoaded -= AddressablesLoaded;
+        GameEvents.GameStart -= GameStart;
+        GameEvents.GameFail -= GameFail;
+    }
+
+    private void OnDestroy()
+    {
+        UnSubscribeEvents();
+    }
+    #endregion
 
     //private void LoadGameSettingsFromJSON()
     //{
@@ -51,8 +72,21 @@ public class GameManager : Singleton<GameManager>
         startPanel.SetActive(false);
     }
 
+    private void GameFail()
+    {
+        StartCoroutine(FailPanelDelay());
+    }
+    private IEnumerator FailPanelDelay()
+    {
+        yield return _wfs;
+
+        failPanel.SetActive(true);
+    }
+
     public void Restart()
     {
+        failPanel.SetActive(false);
+
         _gameEvents.GameRestartEvent();
     }
 
