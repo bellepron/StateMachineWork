@@ -40,6 +40,15 @@ namespace CKY.MANAGERS
         public Transform bullet0;
         private bool _isBullet0Ready;
 
+        [Header("Effects")]
+        [SerializeField] private AssetReference weaponMuzzleR0;
+        [SerializeField] private AssetReference weaponExplosionR0;
+        [SerializeField] private AssetReference landingEffect0R, landingEffect1R;
+        [SerializeField] private AssetReference bloodDirectional0R, bloodDirectional1R;
+        [SerializeField] private AssetReference bloodExplosion0R, bloodExplosion1R, bloodExplosion2R;
+        [SerializeField] private AssetReference bloodWide0R;
+
+
         private void Start()
         {
             _gameEvents = FindObjectOfType<GameEvents>();
@@ -75,6 +84,7 @@ namespace CKY.MANAGERS
             LoadPlayer();
             LoadMaterial0();
             LoadBullet0();
+            LoadEffects();
         }
 
         private void LoadLevel()
@@ -143,7 +153,51 @@ namespace CKY.MANAGERS
                 _isBullet0Ready = true;
                 //Debug.Log("bullet0 loaded");
 
-                BulletSpawner.Instance.bulletPrefabTr = this.bullet0;
+                BulletSpawner.Instance.bulletPrefabTr = this.bullet0.transform;
+            };
+        }
+
+        private void LoadEffects()
+        {
+            weaponMuzzleR0.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.weaponMuzzleTr0 = holder.Result.transform;
+            };
+            weaponExplosionR0.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.weaponExplosionTr0 = holder.Result.transform;
+            };
+            landingEffect0R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.landingEffectTrs.Add(holder.Result.transform);
+            };
+            landingEffect1R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.landingEffectTrs.Add(holder.Result.transform);
+            };
+            bloodDirectional0R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.bloodDirectionalTrs.Add(holder.Result.transform);
+            };
+            bloodDirectional1R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.bloodDirectionalTrs.Add(holder.Result.transform);
+            };
+            bloodExplosion0R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.bloodExplosionTrs.Add(holder.Result.transform);
+            };
+            bloodExplosion1R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.bloodExplosionTrs.Add(holder.Result.transform);
+            };
+            bloodExplosion2R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.bloodExplosionTrs.Add(holder.Result.transform);
+            };
+            bloodWide0R.LoadAssetAsync<GameObject>().Completed += (holder) =>
+            {
+                EffectManager.Instance.bloodWide0Tr = holder.Result.transform;
             };
         }
     }

@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7212502735261142458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7212502735261142459}
+  - component: {fileID: 7212502735261142468}
+  m_Layer: 0
+  m_Name: Addressable Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7212502735261142459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212502735261142458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7212502735261142468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212502735261142458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae63e53e4353394b9468241ee7fdd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addressableLevels:
+  - m_AssetGUID: f870d189036c5cb4194e27d712d7c0c3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  loadedLevel: {fileID: 0}
+  characters:
+  - m_AssetGUID: b32e510db0b60dc4f83da64f17bbd70f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  loadedCharacter: {fileID: 0}
+  playerHolderTr: {fileID: 0}
+  weapons:
+  - m_AssetGUID: bd277668bcfaa41439b7a1dda6f5de07
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  loadedWeapon: {fileID: 0}
+  matR0:
+    m_AssetGUID: 6861dd0655321ed49bf522cb629007c5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  mat0: {fileID: 0}
+  bulletR0:
+    m_AssetGUID: 494f0445419b7b54ab444f1279cfb2ac
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bullet0: {fileID: 0}
+  weaponMuzzleR0:
+    m_AssetGUID: 7745f9ffc3e94cf4986d78b65b32752e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  weaponExplosionR0:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  landingEffect0R:
+    m_AssetGUID: 2f40ac8a68042a742a7904d64c662f32
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  landingEffect1R:
+    m_AssetGUID: 7dac402d136b78a41b562cdf0270b118
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bloodDirectional0R:
+    m_AssetGUID: 225b194860186e743b665ca861d5766e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bloodDirectional1R:
+    m_AssetGUID: 59b836ed412516242800ee7de150b842
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bloodExplosion0R:
+    m_AssetGUID: 0dd3aa530bd273e49a08174a04932931
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bloodExplosion1R:
+    m_AssetGUID: 787e80b0cb673ad4a9362e704dfda809
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bloodExplosion2R:
+    m_AssetGUID: 882359984c205a8479ced0ebeeb94559
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  bloodWide0R:
+    m_AssetGUID: 0a4361e0d46faab41bd00094d1a1cc9f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

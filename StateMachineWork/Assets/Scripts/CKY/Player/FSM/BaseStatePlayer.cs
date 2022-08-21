@@ -22,6 +22,33 @@ namespace CKY.Player.FSM
         public virtual void UpdateLogic() { }
         public virtual void UpdatePhysics() { }
         public virtual void Exit() { }
+
+        private bool ForwardButtonPressing()
+        {
+            return CKY.INPUT.InputHandler.Instance.forwardButton.Pressed;
+        }
+        private bool BackwardButtonPressing()
+        {
+            return CKY.INPUT.InputHandler.Instance.backwardButton.Pressed;
+        }
+        protected bool IsMoving()
+        {
+            return CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true ||
+                    CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true;
+        }
+        protected int ReturnMoveValue()
+        {
+            if (ForwardButtonPressing() == true)
+                return 1;
+            else if (BackwardButtonPressing() == true)
+                return -1;
+            else
+                return 0;
+        }
+        protected bool IsJumping()
+        {
+            return stateMachinePlayer.jumpTrigger == true;
+        }
     }
 
     public class Idle : BaseStatePlayer
@@ -37,7 +64,9 @@ namespace CKY.Player.FSM
         {
             if (_stateMachinePlayer.playerAnimator != null)
                 _stateMachinePlayer.playerAnimator.IdleAnim();
+
             _stateMachinePlayer.rb.velocity = Vector3.zero;
+
             base.Enter();
         }
 
@@ -45,17 +74,11 @@ namespace CKY.Player.FSM
         {
             base.UpdateLogic();
 
-            if (_stateMachinePlayer.jumpTrigger == true)
+            if (IsJumping() == true)
                 stateMachinePlayer.ChangeState(_stateMachinePlayer.jumpState);
 
-            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true ||
-                CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
+            if (IsMoving() == true)
                 stateMachinePlayer.ChangeState(_stateMachinePlayer.moveState);
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
         }
     }
 
@@ -79,30 +102,20 @@ namespace CKY.Player.FSM
         {
             base.UpdateLogic();
 
-            if (_stateMachinePlayer.jumpTrigger == true)
+            if (IsJumping() == true)
                 stateMachinePlayer.ChangeState(_stateMachinePlayer.jumpState);
 
-            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == false &&
-                CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == false)
+            if (IsMoving() == false)
                 stateMachinePlayer.ChangeState(_stateMachinePlayer.idleState);
         }
 
         public override void UpdatePhysics()
         {
             base.UpdatePhysics();
+
             Vector2 vel = _stateMachinePlayer.rb.velocity;
-            float moveValue;
 
-            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
-                moveValue = 1;
-            else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
-                moveValue = -1;
-            else moveValue = 0;
-
-
-            //_stateMachinePlayerCOntroller.playerAnimator.Move(moveValue);
-
-            vel.x = moveValue * _stateMachinePlayer.moveSpeed;
+            vel.x = ReturnMoveValue() * _stateMachinePlayer.moveSpeed;
             _stateMachinePlayer.rb.velocity = vel;
         }
     }
@@ -135,8 +148,7 @@ namespace CKY.Player.FSM
 
             if (_jumped == true)
             {
-                if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true ||
-                    CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
+                if (IsMoving() == true)
                     stateMachinePlayer.ChangeState(_stateMachinePlayer.moveInTheAirState);
 
                 return;
@@ -181,16 +193,10 @@ namespace CKY.Player.FSM
         public override void UpdatePhysics()
         {
             base.UpdatePhysics();
+
             Vector2 vel = _stateMachinePlayer.rb.velocity;
-            float moveValue;
 
-            if (CKY.INPUT.InputHandler.Instance.forwardButton.Pressed == true)
-                moveValue = 1;
-            else if (CKY.INPUT.InputHandler.Instance.backwardButton.Pressed == true)
-                moveValue = -1;
-            else moveValue = 0;
-
-            vel.x = moveValue * _stateMachinePlayer.moveSpeed * _moveSpeedPercentInTheAir;
+            vel.x = ReturnMoveValue() * _stateMachinePlayer.moveSpeed * _moveSpeedPercentInTheAir;
             _stateMachinePlayer.rb.velocity = vel;
         }
     }
