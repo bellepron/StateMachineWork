@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
 using UniRx.Triggers;
+using UniRx;
 
 namespace CKY.Player.FSM
 {
@@ -55,7 +55,7 @@ namespace CKY.Player.FSM
             this.FixedUpdateAsObservable().
                 Subscribe(_ => MyFixedUpdate());
 
-            StartCoroutine(JumpFirstFrame());
+            StartCoroutine(SkipFirstFrame());
 
             EventSubscriber();
 
@@ -69,7 +69,7 @@ namespace CKY.Player.FSM
             transform.position = Vector3.zero + Vector3.up * 2.0f;
         }
 
-        private IEnumerator JumpFirstFrame()
+        private IEnumerator SkipFirstFrame()
         {
             yield return null;
 

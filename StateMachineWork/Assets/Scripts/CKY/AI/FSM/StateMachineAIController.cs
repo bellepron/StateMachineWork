@@ -2,65 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using CKY.Player;
 
 namespace CKY.AI.FSM
 {
     public class StateMachineAIController : StateMachineAI
     {
-        #region Components
-        [SerializeField] AbstractWeapon gun;
-
-        [HideInInspector] public Rigidbody rb;
-
-        public float speed = 4f;
-        public bool jumpTrigger;
-        public bool attackTrigger;
-        #endregion
-
-        #region Preparing
-        private void Awake()
-        {
-            idleState = new Idle(this);
-            moveState = new Move(this);
-            jumpState = new Jump(this);
-
-            GetComponents();
-        }
-
-        private void GetComponents()
-        {
-            rb = GetComponent<Rigidbody>();
-        }
-        #endregion
 
         #region Events
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
+        public override void EventSubscriber() => SubscribeEvents();
 
-        private void OnDisable()
-        {
-            UnSubscribeEvents();
-        }
+        private void OnDisable() => UnSubscribeEvents();
 
-        private void OnDestroy()
-        {
-            UnSubscribeEvents();
-        }
+        private void OnDestroy() => UnSubscribeEvents();
 
         private void SubscribeEvents()
         {
             CKY.INPUT.InputHandler.JumpButtonPressed += Jump;
-            CKY.INPUT.InputHandler.AttackButtonPressed += Attack;
+            CKY.INPUT.InputHandler.AttackButtonPressed += TriggerAttack;
         }
 
         private void UnSubscribeEvents()
         {
             CKY.INPUT.InputHandler.JumpButtonPressed -= Jump;
-            CKY.INPUT.InputHandler.AttackButtonPressed -= Attack;
+            CKY.INPUT.InputHandler.AttackButtonPressed -= TriggerAttack;
         }
-
         #endregion
 
         #region Jump
@@ -77,12 +43,12 @@ namespace CKY.AI.FSM
         #endregion
 
         #region Attack
-        private void Attack()
+        private void TriggerAttack()
         {
             attackTrigger = true;
             StartCoroutine(AttackResetter());
 
-            Shoot();
+            Attack();
         }
         IEnumerator AttackResetter()
         {
@@ -90,10 +56,9 @@ namespace CKY.AI.FSM
             attackTrigger = false;
         }
 
-        private void Shoot()
+        private void Attack()
         {
-            Debug.Log("Enemy bullet spawned. TODO: need id.");
-            gun.Shoot();
+            aiAnimator.AttackAnim(); // TODO: Still working when dead;
         }
         #endregion
     }

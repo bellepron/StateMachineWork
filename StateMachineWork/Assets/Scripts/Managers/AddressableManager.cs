@@ -89,8 +89,13 @@ namespace CKY.MANAGERS
 
         private void LoadLevel()
         {
-            //var levelToLoad = addressableLevels[levelIndex % addressableLevels.Count];
-            var levelToLoad = addressableLevels[0];
+            int levelIndex;
+            string pfLevelIndex = "levelIndex";
+            if (PlayerPrefs.HasKey(pfLevelIndex) == false)
+                PlayerPrefs.SetInt(pfLevelIndex, 0);
+            levelIndex = PlayerPrefs.GetInt(pfLevelIndex);
+
+            var levelToLoad = addressableLevels[levelIndex % addressableLevels.Length];
             levelToLoad.InstantiateAsync().Completed += (level) =>
             {
                 loadedLevel = level.Result.transform;
@@ -101,7 +106,13 @@ namespace CKY.MANAGERS
 
         private void LoadPlayer()
         {
-            characters[0].InstantiateAsync().Completed += (character) =>
+            int characterIndex;
+            string pfCharIndex = "characterIndex";
+            if (PlayerPrefs.HasKey(pfCharIndex) == false)
+                PlayerPrefs.SetInt(pfCharIndex, 0);
+            characterIndex = PlayerPrefs.GetInt(pfCharIndex);
+
+            characters[characterIndex].InstantiateAsync().Completed += (character) =>
             {
                 this.loadedCharacter = character.Result.transform;
 
